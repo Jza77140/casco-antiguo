@@ -4,58 +4,100 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Casco Antiguo I &amp; II — San Rafael</title>
-<meta name="description" content="Barrio privado en San Rafael. Setenta y cinco lotes sobre nueve hectáreas.">
+<meta name="description" content="Barrio privado en San Rafael, Mendoza. Setenta y cinco lotes sobre nueve hectáreas.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&display=swap" rel="stylesheet">
 <style>
-  :root { --papel: #E4DFD4; --tinta: #1C2420; --ocre: #7A5418; }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; background: var(--papel);
-    font-family: Archivo, system-ui, sans-serif; color: var(--tinta); }
+  :root { --papel:#E4DFD4; --tinta:#1C2420; --ocre:#B07D2B; --claro:#F2EDE4; }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--papel); color:var(--tinta);
+    font-family:Archivo, system-ui, sans-serif; }
 
-  header.barra { position: sticky; top: 0; z-index: 10; background: rgba(28,36,32,0.97);
-    color: #F2EDE4; padding: 13px 20px; display: flex; align-items: center;
-    justify-content: space-between; gap: 14px; flex-wrap: wrap; }
-  .marca { font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
-  .marca span { color: #B07D2B; }
-  .acciones { display: flex; gap: 10px; align-items: center; }
-  .btn { font-family: inherit; font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
-    text-transform: uppercase; color: #F2EDE4; text-decoration: none;
-    border: 1px solid rgba(242,237,228,0.45); padding: 8px 15px; border-radius: 2px;
-    transition: background 0.15s, border-color 0.15s; white-space: nowrap; }
-  .btn:hover { background: rgba(242,237,228,0.12); border-color: #B07D2B; }
+  /* barra superior */
+  header { position:sticky; top:0; z-index:30; background:rgba(28,36,32,0.97);
+    color:var(--claro); }
+  .fila { display:flex; align-items:center; justify-content:space-between;
+    gap:12px; padding:11px 18px; }
+  .marca { font-size:12px; font-weight:600; letter-spacing:0.2em;
+    text-transform:uppercase; white-space:nowrap; }
+  .marca em { font-style:normal; color:var(--ocre); }
+  .cuenta { font-size:11.5px; letter-spacing:0.08em; color:rgba(242,237,228,0.6);
+    white-space:nowrap; }
+  nav { display:flex; gap:2px; overflow-x:auto; padding:0 12px 8px; scrollbar-width:none; }
+  nav::-webkit-scrollbar { display:none; }
+  .ir { font:inherit; font-size:11.5px; letter-spacing:0.05em;
+    color:rgba(242,237,228,0.6); background:none; border:0;
+    border-bottom:2px solid transparent; padding:5px 10px 6px; cursor:pointer;
+    white-space:nowrap; transition:color .15s, border-color .15s; }
+  .ir:hover { color:var(--claro); }
+  .ir[aria-current="true"] { color:var(--claro); border-bottom-color:var(--ocre); }
 
-  main { padding: 26px 14px 60px; display: flex; flex-direction: column;
-    align-items: center; gap: 26px; }
-  .hoja { width: 100%; max-width: 794px; }
-  .lienzo { width: 794px; transform-origin: top left;
-    box-shadow: 0 2px 10px rgba(28,36,32,0.14), 0 14px 38px rgba(28,36,32,0.11); }
+  /* barra de avance */
+  .avance { height:2px; background:var(--ocre); width:0; transition:width .1s linear; }
 
-  footer { padding: 0 20px 48px; text-align: center; font-size: 12px; line-height: 1.6;
-    color: #5A5A52; max-width: 620px; margin: 0 auto; }
-  footer a { color: var(--ocre); }
+  main { padding:24px 14px 64px; display:flex; flex-direction:column;
+    align-items:center; gap:24px; }
+  .hoja { width:100%; max-width:794px; scroll-margin-top:96px; }
+  .lienzo { width:794px; transform-origin:top left;
+    box-shadow:0 2px 10px rgba(28,36,32,0.14), 0 14px 38px rgba(28,36,32,0.11); }
+
+  /* puntos laterales, sólo en pantallas anchas */
+  .puntos { position:fixed; right:22px; top:50%; transform:translateY(-50%); z-index:25;
+    display:none; flex-direction:column; gap:12px; }
+  @media (min-width:1180px) { .puntos { display:flex; } }
+  .punto { width:9px; height:9px; border-radius:50%; border:1px solid rgba(28,36,32,0.45);
+    background:transparent; padding:0; cursor:pointer; position:relative; }
+  .punto[aria-current="true"] { background:var(--ocre); border-color:var(--ocre); }
+  .punto span { position:absolute; right:18px; top:50%; transform:translateY(-50%);
+    font-size:11px; letter-spacing:0.08em; text-transform:uppercase; white-space:nowrap;
+    background:var(--tinta); color:var(--claro); padding:4px 9px; border-radius:2px;
+    opacity:0; pointer-events:none; transition:opacity .15s; }
+  .punto:hover span { opacity:1; }
+
+  /* plano ampliable */
+  .lienzo img[src*="plano"] { cursor:zoom-in; }
+  .visor { position:fixed; inset:0; z-index:60; background:rgba(14,16,14,0.95);
+    display:none; align-items:center; justify-content:center; padding:18px; cursor:zoom-out; }
+  .visor.abierto { display:flex; }
+  .visor img { max-width:100%; max-height:100%; object-fit:contain; }
+  .pista { position:absolute; bottom:16px; left:50%; transform:translateX(-50%);
+    color:rgba(242,237,228,0.65); font-size:11.5px; letter-spacing:0.14em;
+    text-transform:uppercase; }
+
+  .arriba { position:fixed; right:18px; bottom:18px; z-index:28; width:42px; height:42px;
+    border-radius:50%; background:rgba(28,36,32,0.9); color:var(--claro); border:0;
+    font-size:17px; cursor:pointer; opacity:0; pointer-events:none; transition:opacity .2s; }
+  .arriba.visible { opacity:1; pointer-events:auto; }
+
+  footer { padding:0 20px 46px; text-align:center; font-size:12px; line-height:1.6;
+    color:#5A5A52; max-width:620px; margin:0 auto; }
 
   @media print {
-    header.barra, footer { display: none; }
-    main { padding: 0; gap: 0; }
-    .lienzo { box-shadow: none; transform: none !important; }
-    .hoja { max-width: none; page-break-after: always; }
+    header, footer, .arriba, .visor, .puntos { display:none !important; }
+    main { padding:0; gap:0; }
+    .lienzo { box-shadow:none; transform:none !important; }
+    .hoja { max-width:none; page-break-after:always; }
   }
 </style>
 </head>
 <body>
 
-<header class="barra">
-  <div class="marca">Casco Antiguo <span>I &amp; II</span> &nbsp;·&nbsp; San Rafael</div>
-  <div class="acciones">
-    <a class="btn" href="brochure.pdf" target="_blank" rel="noopener">Ver el PDF</a>
+<header>
+  <div class="fila">
+    <div class="marca">Casco Antiguo <em>I &amp; II</em></div>
+    <div class="cuenta"><span id="actual">1</span> / 7</div>
   </div>
+  <nav><button class="ir" data-ir="h1">Portada</button><button class="ir" data-ir="h2">El lugar</button><button class="ir" data-ir="h3">El plano</button><button class="ir" data-ir="h4">Infraestructura</button><button class="ir" data-ir="h5">Energía</button><button class="ir" data-ir="h6">Vida en común</button><button class="ir" data-ir="h7">Marco legal</button></nav>
+  <div class="avance" id="avance"></div>
 </header>
 
+<div class="puntos"><button class="punto" data-ir="h1" title="Portada"><span>Portada</span></button><button class="punto" data-ir="h2" title="El lugar"><span>El lugar</span></button><button class="punto" data-ir="h3" title="El plano"><span>El plano</span></button><button class="punto" data-ir="h4" title="Infraestructura"><span>Infraestructura</span></button><button class="punto" data-ir="h5" title="Energía"><span>Energía</span></button><button class="punto" data-ir="h6" title="Vida en común"><span>Vida en común</span></button><button class="punto" data-ir="h7" title="Marco legal"><span>Marco legal</span></button></div>
+
 <main>
-<div class="hoja" id="h1"><div class="lienzo"><div style="width: 794px; height: 1123px; box-sizing: border-box; background: #1C2420; color: #F2EDE4; font-family: Archivo, 'Helvetica Neue', sans-serif; display: flex; flex-direction: column; position: relative; overflow: hidden">
+<section class="hoja" id="h1" data-n="1" data-nombre="Portada"><div class="lienzo"><div style="width: 794px; height: 1123px; box-sizing: border-box; background: #1C2420; color: #F2EDE4; font-family: Archivo, 'Helvetica Neue', sans-serif; display: flex; flex-direction: column; position: relative; overflow: hidden">
 
   <div style="position: relative; padding: 64px 64px 0 64px; display: flex; flex-direction: column; gap: 10px">
     <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #B07D2B">Barrio privado</div>
@@ -94,8 +136,8 @@
     </div>
   </div>
 
-</div></div></div>
-<div class="hoja" id="h2"><div class="lienzo"><div style="width: 794px; height: 1123px; box-sizing: border-box; background: #F2EDE4; color: #1C2420; font-family: Archivo, 'Helvetica Neue', sans-serif; display: flex; flex-direction: column; padding: 60px 64px">
+</div></div></section>
+<section class="hoja" id="h2" data-n="2" data-nombre="El lugar"><div class="lienzo"><div style="width: 794px; height: 1123px; box-sizing: border-box; background: #F2EDE4; color: #1C2420; font-family: Archivo, 'Helvetica Neue', sans-serif; display: flex; flex-direction: column; padding: 60px 64px">
 
   <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 13px; border-bottom: 1px solid rgba(28,36,32,0.18)">
     <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #7A5418">San Rafael &middot; el proyecto</span>
@@ -177,8 +219,8 @@
     <span>San Rafael</span>
   </div>
 
-</div></div></div>
-<div class="hoja" id="h3"><div class="lienzo"><div style="width: 794px; height: 1123px; box-sizing: border-box; background: #F2EDE4; color: #1C2420; font-family: Archivo, 'Helvetica Neue', sans-serif; display: flex; flex-direction: column; padding: 48px 64px">
+</div></div></section>
+<section class="hoja" id="h3" data-n="3" data-nombre="El plano"><div class="lienzo"><div style="width: 794px; height: 1123px; box-sizing: border-box; background: #F2EDE4; color: #1C2420; font-family: Archivo, 'Helvetica Neue', sans-serif; display: flex; flex-direction: column; padding: 48px 64px">
 
   <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 12px; border-bottom: 1px solid rgba(28,36,32,0.18)">
     <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #7A5418">El plano del conjunto</span>
@@ -247,8 +289,8 @@
     <span>San Rafael</span>
   </div>
 
-</div></div></div>
-<div class="hoja" id="h4"><div class="lienzo"><div style="width: 794px; height: 1123px; box-sizing: border-box; background: #F2EDE4; color: #1C2420; font-family: Archivo, 'Helvetica Neue', sans-serif; display: flex; flex-direction: column; padding: 52px 64px">
+</div></div></section>
+<section class="hoja" id="h4" data-n="4" data-nombre="Infraestructura"><div class="lienzo"><div style="width: 794px; height: 1123px; box-sizing: border-box; background: #F2EDE4; color: #1C2420; font-family: Archivo, 'Helvetica Neue', sans-serif; display: flex; flex-direction: column; padding: 52px 64px">
 
   <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 13px; border-bottom: 1px solid rgba(28,36,32,0.18)">
     <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #7A5418">Infraestructura</span>
@@ -319,8 +361,8 @@
     <span>San Rafael</span>
   </div>
 
-</div></div></div>
-<div class="hoja" id="h5"><div class="lienzo"><div style="width: 794px; height: 1123px; box-sizing: border-box; background: #3A4637; color: #F2EDE4; font-family: Archivo, 'Helvetica Neue', sans-serif; display: flex; flex-direction: column; padding: 52px 64px">
+</div></div></section>
+<section class="hoja" id="h5" data-n="5" data-nombre="Energía"><div class="lienzo"><div style="width: 794px; height: 1123px; box-sizing: border-box; background: #3A4637; color: #F2EDE4; font-family: Archivo, 'Helvetica Neue', sans-serif; display: flex; flex-direction: column; padding: 52px 64px">
 
   <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 12px; border-bottom: 1px solid rgba(242,237,228,0.28)">
     <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #E0B463">Energía y sustentabilidad</span>
@@ -401,8 +443,8 @@
     <span>San Rafael</span>
   </div>
 
-</div></div></div>
-<div class="hoja" id="h6"><div class="lienzo"><div style="width: 794px; height: 1123px; box-sizing: border-box; background: #F2EDE4; color: #1C2420; font-family: Archivo, 'Helvetica Neue', sans-serif; display: flex; flex-direction: column; padding: 60px 64px">
+</div></div></section>
+<section class="hoja" id="h6" data-n="6" data-nombre="Vida en común"><div class="lienzo"><div style="width: 794px; height: 1123px; box-sizing: border-box; background: #F2EDE4; color: #1C2420; font-family: Archivo, 'Helvetica Neue', sans-serif; display: flex; flex-direction: column; padding: 60px 64px">
 
   <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 13px; border-bottom: 1px solid rgba(28,36,32,0.18)">
     <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #7A5418">La vida en común y las reglas</span>
@@ -491,8 +533,8 @@
     <span>San Rafael</span>
   </div>
 
-</div></div></div>
-<div class="hoja" id="h7"><div class="lienzo"><div style="width: 794px; height: 1123px; box-sizing: border-box; background: #1C2420; color: #F2EDE4; font-family: Archivo, 'Helvetica Neue', sans-serif; display: flex; flex-direction: column; padding: 52px 64px">
+</div></div></section>
+<section class="hoja" id="h7" data-n="7" data-nombre="Marco legal"><div class="lienzo"><div style="width: 794px; height: 1123px; box-sizing: border-box; background: #1C2420; color: #F2EDE4; font-family: Archivo, 'Helvetica Neue', sans-serif; display: flex; flex-direction: column; padding: 52px 64px">
 
   <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 13px; border-bottom: 1px solid rgba(242,237,228,0.26)">
     <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #B07D2B">Marco legal y comercial</span>
@@ -553,8 +595,15 @@
 
   </div>
 
-</div></div></div>
+</div></div></section>
 </main>
+
+<button class="arriba" id="arriba" aria-label="Volver al inicio">↑</button>
+
+<div class="visor" id="visor">
+  <img id="visorImg" src="" alt="Plano del conjunto ampliado">
+  <div class="pista">Tocá para cerrar</div>
+</div>
 
 <footer>
   Material de presentación. No constituye oferta. Las superficies, servicios y características
@@ -563,9 +612,15 @@
 </footer>
 
 <script>
-  // Las hojas están diseñadas a 794 px de ancho (A4). Las escalamos al ancho disponible.
+(function () {
+  var hojas = [].slice.call(document.querySelectorAll('.hoja'));
+  var navs = [].slice.call(document.querySelectorAll('[data-ir]'));
+  var actual = document.getElementById('actual');
+  var avance = document.getElementById('avance');
+
+  // las hojas están diseñadas a 794 px (A4): se escalan al ancho disponible
   function ajustar() {
-    document.querySelectorAll('.hoja').forEach(function (h) {
+    hojas.forEach(function (h) {
       var l = h.querySelector('.lienzo');
       var k = Math.min(1, h.clientWidth / 794);
       l.style.transform = k < 1 ? 'scale(' + k + ')' : 'none';
@@ -576,6 +631,69 @@
   window.addEventListener('load', ajustar);
   if (document.fonts && document.fonts.ready) { document.fonts.ready.then(ajustar); }
   ajustar();
+
+  navs.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var d = document.getElementById(b.dataset.ir);
+      if (d) d.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  });
+
+  function marcar(id, n) {
+    navs.forEach(function (b) {
+      b.setAttribute('aria-current', b.dataset.ir === id ? 'true' : 'false');
+    });
+    if (actual) actual.textContent = n;
+  }
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting) marcar(e.target.id, e.target.dataset.n);
+      });
+    }, { rootMargin:'-45% 0px -50% 0px' });
+    hojas.forEach(function (h) { obs.observe(h); });
+  }
+
+  // flechas del teclado para pasar de hoja
+  document.addEventListener('keydown', function (e) {
+    var i = hojas.findIndex(function (h) {
+      return h.getBoundingClientRect().top > -120;
+    });
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+      if (hojas[i + 1]) { hojas[i + 1].scrollIntoView({behavior:'smooth'}); e.preventDefault(); }
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      if (hojas[i - 1]) { hojas[i - 1].scrollIntoView({behavior:'smooth'}); e.preventDefault(); }
+    }
+  });
+
+  // plano ampliable
+  var visor = document.getElementById('visor');
+  var visorImg = document.getElementById('visorImg');
+  document.querySelectorAll('.lienzo img[src*="plano"]').forEach(function (im) {
+    im.addEventListener('click', function () {
+      visorImg.src = im.getAttribute('src');
+      visor.classList.add('abierto');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  function cerrar() {
+    visor.classList.remove('abierto');
+    document.body.style.overflow = '';
+  }
+  visor.addEventListener('click', cerrar);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') cerrar(); });
+
+  var arriba = document.getElementById('arriba');
+  arriba.addEventListener('click', function () {
+    window.scrollTo({ top:0, behavior:'smooth' });
+  });
+  window.addEventListener('scroll', function () {
+    arriba.classList.toggle('visible', window.scrollY > 700);
+    var t = document.body.scrollHeight - window.innerHeight;
+    avance.style.width = t > 0 ? ((window.scrollY / t) * 100) + '%' : '0';
+  });
+})();
 </script>
 
 </body>
